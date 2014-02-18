@@ -1,0 +1,10 @@
+{
+    "dl_button_pic":{
+        "message": "Download this picture",
+        "description": "text for picture's download button"
+    },
+    "dl_button_vid":{
+        "message": "Download this video",
+        "description": "text for video's download button"
+    }
+}

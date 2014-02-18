@@ -1,0 +1,11 @@
+{
+    "dl_button_pic":{
+        "message": "Télécharger cette image",
+        "description": "texte pour le bouton de téléchargement d'image."
+    },
+
+    "dl_button_vid":{
+        "message": "Télécharger cette vidéo",
+        "description": "text pour le bouton de téléchargement vidéo."
+    }
+}

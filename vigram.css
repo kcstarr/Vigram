@@ -1,0 +1,37 @@
+.VigramProfileButton {
+    margin:-25px 5px;
+    z-index:1;
+    float:left;
+}
+
+.VigramProfileButton img {
+    /*border:1px solid;*/
+    border-radius: 2px;
+    width:0px;
+    float:left;
+}
+
+#VigramSingleImg {
+    margin-top:-50px;
+}
+
+#VigramSingleImg img {
+    padding:2px;
+    width:30px;
+    visibility: visible;
+}
+
+#VigramSingleImg strong {
+    font-weight:bold;
+    color:#fff;
+    text-shadow:0 1px 0 rgba(3, 27, 47, 0.5);
+}
+
+#VineButton img {
+    width:50px;
+}
+
+#VigramSingleImg a span.img-outset {
+    -webkit-box-shadow:none !important;
+    box-shadow:none !important;
+}
