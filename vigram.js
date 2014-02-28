@@ -25,8 +25,7 @@ function getTypeFromInstagramMedia(content) {
 
 $(document).ready(function () {
 
-    var image = chrome.extension.getURL("medias/images/vigram_48.png");
-    var image25 = chrome.extension.getURL("medias/images/vigram_25.png");
+    var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
     var getRealImgFromInstagram = (function (content) {
         var url = getUrlFromInstagramMedia(content);
@@ -62,7 +61,7 @@ $(document).ready(function () {
                 var url = getRealImgFromInstagram(content);
                 var fName = url.split("/")[3];
                 $this.addClass('Vigram');
-                $this.append('<a class="VigramProfileButton" href="' + url + '" download="' + fName + '" ><img class="VigramEffect" src="' + image25 + '"></a>');
+                $this.append('<a class="VigramProfileButton" href="' + url + '" download="' + fName + '" ><img class="VigramEffect size25" src="' + image + '"></a>');
             });
         });
     });
@@ -82,7 +81,7 @@ $(document).ready(function () {
             var fName = url.split("/")[3];
             $elem.addClass('Vigram');
             $("<a>", {class: "VigramProfileButton", href: url, download: fName})
-                .append($("<img>", {class: "VigramEffect", src: image25}))
+                .append($("<img>", {class: "VigramEffect size25", src: image}))
                 .appendTo($children);
         });
     });
@@ -102,7 +101,7 @@ $(document).ready(function () {
             $this.addClass('Vigram');
             if (typeof url != 'undefined') {
                 var fName = url.split("/")[3];
-                $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><img src="' + image25 + '"></a>');
+                $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><div class="Vcenter"><img class="size25" src="' + image + '"></div></a>');
             }
         });
     });
@@ -121,7 +120,7 @@ $(document).ready(function () {
         $this.addClass('Vigram');
         if (typeof url != 'undefined') {
             var fName = url.split("/")[3];
-            $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><img src="' + image25 + '"></a>');
+            $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><div class="Vcenter"><img class="size25" src="' + image + '"></div></a>');
         }
     });
 

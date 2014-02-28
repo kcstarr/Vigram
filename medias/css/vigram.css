@@ -35,3 +35,19 @@
     -webkit-box-shadow:none !important;
     box-shadow:none !important;
 }
+
+.img-outset img {
+    width: 48px;
+}
+
+.size25 {
+    width:25px;
+}
+
+.Vcenter {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    width:49px;
+    height:40px;
+}
