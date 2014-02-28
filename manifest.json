@@ -4,9 +4,9 @@
   "version": "0.3",
   "description": "Download pics & videos from Vine & Instagram with a single click !",
   "icons": {
-    "16" : "vigram-white.png",
-    "48" : "vigram-white.png",
-    "128" : "vigram-white.png"
+    "16" : "medias/images/vigram-white.png",
+    "48" : "medias/images/vigram-white.png",
+    "128" : "medias/images/vigram-white.png"
   },
   "default_locale" : "en",
   "manifest_version": 2,
@@ -23,8 +23,10 @@
 
   "web_accessible_resources": [
       "jquery-2.0.3.min.map",
-      "vigram-black.png",
-      "vigram-white.png",
-      "vigram-white-25.png"
+      "medias/images/vigram-black.png",
+      "medias/images/vigram-white.png",
+      "medias/images/vigram-white-25.png",
+      "medias/images/vigram_25.png",
+      "medias/images/vigram_48.png"
   ]
 }

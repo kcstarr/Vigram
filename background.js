@@ -25,8 +25,8 @@ function getTypeFromInstagramMedia(content) {
 
 $(document).ready(function () {
 
-    var image = chrome.extension.getURL("vigram_48.png");
-    var image25 = chrome.extension.getURL("vigram_25.png");
+    var image = chrome.extension.getURL("medias/images/vigram_48.png");
+    var image25 = chrome.extension.getURL("medias/images/vigram_25.png");
 
     var getRealImgFromInstagram = (function (content) {
         var url = getUrlFromInstagramMedia(content);
