@@ -13,8 +13,8 @@
   
   "content_scripts": [ {
     "matches": ["http://instagram.com/*", "https://vine.co/v/*"],
-    "js": [ "jquery-2.0.3.min.js", "background.js" ],
-    "css": ["vigram.css"]
+    "js": [ "jquery-2.0.3.min.js", "vigram.js" ],
+    "css": ["medias/css/vigram.css"]
   }],
   
   "permissions":    [
