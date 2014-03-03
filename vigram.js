@@ -2,7 +2,7 @@
  * Vigram
  * @version : 1.0
  * @author: Nicolas (@neodern) Jamet <neodern@gmail.com>
- * @about:
+ * @about: Download pics & videos from Vine & Instagram with a single click !
  */
 
 
