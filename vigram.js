@@ -24,8 +24,6 @@ function getTypeFromInstagramMedia(content) {
     return false;
 }
 
-$(document).ready(function () {
-
     var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
     var getRealImgFromInstagram = (function (content) {
@@ -37,6 +35,7 @@ $(document).ready(function () {
         }
         return url;
     });
+
 
     /**
      * Event when mouse enter or leave a pic/video block
@@ -62,7 +61,9 @@ $(document).ready(function () {
                 var url = getRealImgFromInstagram(content);
                 var fName = url.split("/")[3];
                 $this.addClass('Vigram');
-                $this.append('<a class="VigramProfileButton" href="' + url + '" download="' + fName + '" ><img class="VigramEffect size25" src="' + image + '"></a>');
+                $('<a>', {class: "VigramProfileButton", href: url, download: fName})
+                    .append($("<img>", {class: "VigramEffect size25", src: image}))
+                    .appendTo($this);
             });
         });
     });
@@ -102,7 +103,12 @@ $(document).ready(function () {
             $this.addClass('Vigram');
             if (typeof url != 'undefined') {
                 var fName = url.split("/")[3];
-                $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><div class="Vcenter"><img class="size25" src="' + image + '"></div></a>');
+                $this.find('.timelineLikeButton').after(
+                    $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
+                        .append($("<div>", {class: "Vcenter"})
+                            .append($("<img>", {class: "size25", src: image}))
+                        )
+                    );
             }
         });
     });
@@ -121,7 +127,12 @@ $(document).ready(function () {
         $this.addClass('Vigram');
         if (typeof url != 'undefined') {
             var fName = url.split("/")[3];
-            $this.find('.timelineLikeButton').after('<a class="timelineLikeButton" style="background:none;" href="' + url + '" download="' + fName + '" ><div class="Vcenter"><img class="size25" src="' + image + '"></div></a>');
+            $this.find('.timelineLikeButton').after(
+                $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
+                    .append($("<div>", {class: "Vcenter"})
+                        .append($("<img>", {class: "size25", src: image}))
+                    )
+                );
         }
     });
 
@@ -145,10 +156,17 @@ $(document).ready(function () {
                 if (!($('#VigramSingleImg').length)) {
                     var topBar = $('.top-bar-home').attr('id', '');
                     topBar.children().attr('id', '');
-                    $('.top-bar-actions').first().append('<li id="VigramSingleImg"><a href="' + url + '" download="' + fName + '" ><span class="img-outset"><img src="' + image + '"></span><strong>' + text_button + '</strong></a></li>');
-                    $('#VigramSingleImg').animate({
-                        marginTop: '0px'
-                    }, 1500);
+
+                    $("<li>", {id: "VigramSingleImg"})
+                        .append($("<a>", {href: url, download: fName})
+                            .append($("<span>", {class: "img-outset"})
+                                .append($("<img>", {src: image}))
+                            )
+                            .append($("<strong>").text(text_button))
+                        )
+                        .appendTo($('.top-bar-actions').first());
+
+                    $('#VigramSingleImg').animate({ marginTop: '0px' }, 1500);
                 }
             });
         });
@@ -157,8 +175,8 @@ $(document).ready(function () {
     /**
      * Event Vine. \o/
      */
-    $('.user').ready(function () {
-        var url = $('#post').children().attr('src');
+    $('.info-row').ready(function () {
+        var url = $('.vine-video-container').children().attr('src');
         if (typeof url === 'undefined')
             return;
         var splittedUrl = url.split('/')[5];
@@ -166,9 +184,10 @@ $(document).ready(function () {
 
         if (!($('#VineButton').length)) {
             var info = $('.info');
-            $('.user').append('<a id="VineButton" href="' + url + '" download="' + name + '" ><img src="' + image + '"/></a>');
-            info.find('h1').remove();
-            $('.user').css('padding-bottom', '230px');
+            $("<div>", {class: "action-container"})
+                .append($("<a>", {id: "VineButton", href: url, download: name})
+                    .append($("<img>", {src: image, width:"35px"})))
+                .append($("<font>", {style: "font-size:11px;"}).text("Vigram"))
+                .appendTo($('.post-engagement'));
         }
     });
-});
