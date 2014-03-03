@@ -194,7 +194,7 @@ $('.lbAnimation').ready(function () {
 /**
  * Event Vine. \o/
  */
-$('.info-row').ready(function () {
+$('#ember368').ready(function () {
     var url = $('.vine-video-container').children().attr('src');
     if (typeof url === 'undefined')
         return;
@@ -203,10 +203,10 @@ $('.info-row').ready(function () {
 
     if (!($('#VineButton').length)) {
         var info = $('.info');
-        $("<div>", {class: "action-container"})
+        $("<div>", {class: "share-badge"})
             .append($("<a>", {id: "VineButton", href: url, download: name})
-                .append($("<img>", {src: image, width:"35px"})))
-            .append($("<font>", {style: "font-size:11px;"}).text("Vigram"))
-            .appendTo($('.post-engagement'));
+                .append($("<img>", {src: image})))
+            .append($("<p>").text("Vigram"))
+            .prependTo($('#ember368'));
     }
 });
