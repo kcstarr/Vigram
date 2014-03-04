@@ -26,9 +26,7 @@ function getUrlFromInstagramMedia(content) {
  * @returns bool
  */
 function getTypeFromInstagramMedia(content) {
-    if (content.indexOf('og:video" content="', 0) === -1)
-        return true;
-    return false;
+    return content.indexOf('og:video" content="', 0) === -1;
 }
 
 
@@ -162,14 +160,16 @@ $('.lbAnimation').ready(function () {
         var url = getUrlFromInstagramMedia(content);
         if (typeof url === 'undefined')
             return;
+
         var fName = url.split("/")[3];
         if (typeof fName === 'undefined' || fName === 'profiles')
             return;
+
         var is_pic = getTypeFromInstagramMedia(content);
+        var text_button = chrome.i18n.getMessage("dl_button_vid");
         if (is_pic)
-            var text_button = chrome.i18n.getMessage("dl_button_pic");
-        else
-            var text_button = chrome.i18n.getMessage("dl_button_vid");
+            text_button = chrome.i18n.getMessage("dl_button_pic");
+
         $('.top-bar-actions').ready(function () {
             if (!($('#VigramSingleImg').length)) {
                 var topBar = $('.top-bar-home').attr('id', '');
