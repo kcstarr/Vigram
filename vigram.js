@@ -101,6 +101,13 @@ $('.photo-feed').on('DOMNodeInserted', '.photo', function (e) {
     });
 });
 
+/**
+ * In progress
+ */
+$( 'body' ).on('DOMNodeInserted', function (e) {
+   console.log("ça marche now !");
+});
+
 
 /**
  * Event Timeline Instagram Loading.
