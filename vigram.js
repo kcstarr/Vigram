@@ -71,7 +71,7 @@ $('.photo-feed').ready(function () {
         var urlToMedia = $this.find('a').first().attr('href');
         $.get(urlToMedia, function (content) {
             var url = getRealImgFromInstagram(content);
-            var fName = url.split("/")[3];
+            var fName = url.split("/")[4];
             $this.addClass('Vigram');
             $('<a>', {class: "VigramProfileButton", href: url, download: fName})
                 .append($("<img>", {class: "VigramEffect size25", src: image}))
@@ -93,19 +93,12 @@ $('.photo-feed').on('DOMNodeInserted', '.photo', function (e) {
     var urlToMedia = $elem.find('a').first().attr('href');
     $.get(urlToMedia, function (content) {
         var url = getRealImgFromInstagram(content);
-        var fName = url.split("/")[3];
+        var fName = url.split("/")[4];
         $elem.addClass('Vigram');
         $("<a>", {class: "VigramProfileButton", href: url, download: fName})
             .append($("<img>", {class: "VigramEffect size25", src: image}))
             .appendTo($children);
     });
-});
-
-/**
- * In progress
- */
-$( 'body' ).on('DOMNodeInserted', function (e) {
-   console.log("ça marche now !");
 });
 
 
@@ -123,7 +116,7 @@ $('.timelineContainer').ready(function () {
             url = $this.find('.timelinePhoto').attr('src');
         $this.addClass('Vigram');
         if (typeof url != 'undefined') {
-            var fName = url.split("/")[3];
+            var fName = url.split("/")[4];
             $this.find('.timelineLikeButton').after(
                 $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
                     .append($("<div>", {class: "Vcenter"})
@@ -148,7 +141,7 @@ $('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) {
         url = $this.find('.timelinePhoto').attr('src');
     $this.addClass('Vigram');
     if (typeof url != 'undefined') {
-        var fName = url.split("/")[3];
+        var fName = url.split("/")[4];
         $this.find('.timelineLikeButton').after(
             $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
                 .append($("<div>", {class: "Vcenter"})
