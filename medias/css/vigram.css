@@ -42,3 +42,11 @@
     height:40px;
 }
 
+.VigramOverlay {
+    position: absolute;
+
+    height: 50px;
+    width: 50px;
+    background-size: 50px !important;
+    background-repeat: no-repeat !important;
+}

@@ -58,6 +58,26 @@ $('.photo-feed').on('mouseleave', '.photo', function () {
     $(this).find('.VigramEffect').css('width', '0');
 });
 
+/**
+ * In progress
+ */
+$('body').on('click', function() {
+    $('body').on('DOMNodeInserted', '.igDialogContent', function (e) {
+
+        var $elem = $(e.target).find('.Image.iLoading.Frame').first();
+
+        if ($elem.hasClass('Vigram'))
+            return;
+
+        var urlToMedia = $elem.attr('src');
+        var fName = urlToMedia.split("/")[4];
+        $elem.addClass('Vigram');
+
+        $("<a>", {class: "VigramOverlay", style: "background:url("+image+")", href: urlToMedia, download: fName})
+            .appendTo($elem);
+    });
+});
+
 
 /**
  * Event Profile Instagram Loading
