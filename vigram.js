@@ -45,6 +45,22 @@ function getRealImgFromInstagram(content) {
     return url;
 }
 
+var getFromInstagramProfile = function($this) {
+    if (($this.hasClass('Vigram')))
+        return;
+
+    $this.addClass('Vigram');
+    var urlToMedia = $this.find('a').first().attr('href');
+    $.get(urlToMedia, function (content) {
+        var url = getRealImgFromInstagram(content);
+        var fName = url.split("/")[4];
+        $('<a>', {class: "VigramProfileButton", href: url, download: fName})
+            .append($("<img>", {class: "VigramEffect size25", src: image}))
+            .appendTo($this);
+    });
+
+};
+
 var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
 
@@ -59,21 +75,21 @@ $('.photo-feed').on('mouseleave', '.photo', function () {
 });
 
 /**
- * In progress
+ * Event on Instagram's Modal
  */
 $('body').on('click', function() {
     $('body').on('DOMNodeInserted', '.igDialogContent', function (e) {
 
         var $elem = $(e.target).find('.Image.iLoading.Frame').first();
-
         if ($elem.hasClass('Vigram'))
             return;
 
-        var urlToMedia = $elem.attr('src');
-        var fName = urlToMedia.split("/")[4];
+        var urlToMedia  = $elem.attr('src'),
+            fName       = urlToMedia.split("/")[4];
+
         $elem.addClass('Vigram');
 
-        $("<a>", {class: "VigramOverlay", style: "background:url("+image+")", href: urlToMedia, download: fName})
+        $("<a>", {class: "VigramModal", style: "background:url("+image+")", href: urlToMedia, download: fName})
             .appendTo($elem);
     });
 });
@@ -83,21 +99,7 @@ $('body').on('click', function() {
  * Event Profile Instagram Loading
  */
 $('.photo-feed').ready(function () {
-    $('.photo-wrapper').each(function () {
-        var $this = $(this);
-        if (($this.hasClass('Vigram')))
-            return;
-
-        var urlToMedia = $this.find('a').first().attr('href');
-        $.get(urlToMedia, function (content) {
-            var url = getRealImgFromInstagram(content);
-            var fName = url.split("/")[4];
-            $this.addClass('Vigram');
-            $('<a>', {class: "VigramProfileButton", href: url, download: fName})
-                .append($("<img>", {class: "VigramEffect size25", src: image}))
-                .appendTo($this);
-        });
-    });
+    $('.photo-wrapper').each(getFromInstagramProfile($(this)));
 });
 
 
@@ -105,20 +107,8 @@ $('.photo-feed').ready(function () {
  * Event Profile Instagram NewNode
  */
 $('.photo-feed').on('DOMNodeInserted', '.photo', function (e) {
-    var $elem = $(e.target);
-    var $children = $elem.children().first();
-    if ($elem.hasClass('Vigram') || $elem.hasClass('VigramProfileButton'))
-        return;
-
-    var urlToMedia = $elem.find('a').first().attr('href');
-    $.get(urlToMedia, function (content) {
-        var url = getRealImgFromInstagram(content);
-        var fName = url.split("/")[4];
-        $elem.addClass('Vigram');
-        $("<a>", {class: "VigramProfileButton", href: url, download: fName})
-            .append($("<img>", {class: "VigramEffect size25", src: image}))
-            .appendTo($children);
-    });
+    var $this = $(e.target).parent();
+    getFromInstagramProfile($this);
 });
 
 
