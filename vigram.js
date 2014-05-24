@@ -97,6 +97,15 @@ $('.photo-feed').on('mouseleave', '.photo', function () {
 });
 
 /**
+ * Events Handlers.
+ */
+$('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
+$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
+
+$('.timelineContainer').ready(function () { $('.timelineItem').each(function () { getFromInstagramTimeline($(this)); }); });
+$('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) { getFromInstagramTimeline($(e.target)); });
+
+/**
  * Event on Instagram's Modal
  */
 $('body').on('click', function() {
@@ -115,16 +124,6 @@ $('body').on('click', function() {
             .appendTo($elem);
     });
 });
-
-/**
- * Events Handlers.
- */
-$('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
-$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
-
-$('.timelineContainer').ready(function () { $('.timelineItem').each(function () { getFromInstagramTimeline($(this)); }); });
-$('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) { getFromInstagramTimeline($(e.target)); });
-
 
 /**
  * Event pic/video page Instagram.
