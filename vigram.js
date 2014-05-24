@@ -45,6 +45,10 @@ function getRealImgFromInstagram(content) {
     return url;
 }
 
+/**
+ * Callback for Event Profile Instagram (Loading / NewNode)
+ * @param $this
+ */
 var getFromInstagramProfile = function($this) {
     if (($this.hasClass('Vigram')))
         return;
@@ -61,8 +65,26 @@ var getFromInstagramProfile = function($this) {
 
 };
 
-var image = chrome.extension.getURL("medias/images/vigram_128.png");
+var getFromInstagramTimeline = function($this) {
+    if ($this.hasClass('Vigram'))
+        return;
 
+    var url = $this.find('.Video').first().attr('src');
+    if (typeof url == 'undefined')
+        url = $this.find('.timelinePhoto').attr('src');
+    $this.addClass('Vigram');
+    if (typeof url != 'undefined') {
+        var fName = url.split("/")[4];
+        $this.find('.timelineLikeButton').after(
+            $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
+                .append($("<div>", {class: "Vcenter"})
+                    .append($("<img>", {class: "size25", src: image}))
+            )
+        );
+    }
+};
+
+var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
 /**
  * Event when mouse enter or leave a pic/video block
@@ -94,72 +116,14 @@ $('body').on('click', function() {
     });
 });
 
-
 /**
- * Event Profile Instagram Loading
+ * Events Handlers.
  */
-$('.photo-feed').ready(function () {
-    $('.photo-wrapper').each(getFromInstagramProfile($(this)));
-});
+$('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
+$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
 
-
-/**
- * Event Profile Instagram NewNode
- */
-$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) {
-    var $this = $(e.target).parent();
-    getFromInstagramProfile($this);
-});
-
-
-/**
- * Event Timeline Instagram Loading.
- */
-$('.timelineContainer').ready(function () {
-    $('.timelineItem').each(function () {
-        var $this = $(this);
-        if ($this.hasClass('Vigram'))
-            return;
-
-        var url = $this.find('.Video').first().attr('src');
-        if (typeof url == 'undefined')
-            url = $this.find('.timelinePhoto').attr('src');
-        $this.addClass('Vigram');
-        if (typeof url != 'undefined') {
-            var fName = url.split("/")[4];
-            $this.find('.timelineLikeButton').after(
-                $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
-                    .append($("<div>", {class: "Vcenter"})
-                        .append($("<img>", {class: "size25", src: image}))
-                    )
-                );
-        }
-    });
-});
-
-
-/**
- * Event Timeline Instagram NewNode
- */
-$('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) {
-    var $this = $(e.target);
-    if ($this.hasClass('Vigram'))
-        return;
-
-    var url = $this.find('.Video').first().attr('src');
-    if (typeof url == 'undefined')
-        url = $this.find('.timelinePhoto').attr('src');
-    $this.addClass('Vigram');
-    if (typeof url != 'undefined') {
-        var fName = url.split("/")[4];
-        $this.find('.timelineLikeButton').after(
-            $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
-                .append($("<div>", {class: "Vcenter"})
-                    .append($("<img>", {class: "size25", src: image}))
-                )
-            );
-    }
-});
+$('.timelineContainer').ready(function () { $('.timelineItem').each(function () { getFromInstagramTimeline($(this)); }); });
+$('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) { getFromInstagramTimeline($(e.target)); });
 
 
 /**
