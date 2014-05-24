@@ -168,7 +168,7 @@ $('.lbAnimation').ready(function () {
 /**
  * Event Vine. \o/
  */
-$('#ember368').ready(function () {
+$('.badges').ready(function () {
     var url = $('.vine-video-container').children().attr('src');
     if (typeof url === 'undefined')
         return;
@@ -181,6 +181,6 @@ $('#ember368').ready(function () {
             .append($("<a>", {id: "VineButton", href: url, download: name})
                 .append($("<img>", {src: image})))
             .append($("<p>").text("Vigram"))
-            .prependTo($('#ember368'));
+            .prependTo($('.badges'));
     }
 });
