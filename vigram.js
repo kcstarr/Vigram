@@ -86,19 +86,11 @@ var getFromInstagramTimeline = function($this) {
 
 var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
-/**
- * Event when mouse enter or leave a pic/video block
- */
-$('.photo-feed').on('mouseenter', '.photo', function () {
-    $(this).find('.VigramEffect').css('width', '25px');
-});
-$('.photo-feed').on('mouseleave', '.photo', function () {
-    $(this).find('.VigramEffect').css('width', '0');
-});
+/* Event when mouse enter or leave a pic/video block */
+$('.photo-feed').on('mouseenter', '.photo', function () { $(this).find('.VigramEffect').css('width', '25px'); });
+$('.photo-feed').on('mouseleave', '.photo', function () { $(this).find('.VigramEffect').css('width', '0'); });
 
-/**
- * Events Handlers.
- */
+/* Events Handlers. */
 $('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
 $('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
 
