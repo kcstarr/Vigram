@@ -45,37 +45,64 @@ function getRealImgFromInstagram(content) {
     return url;
 }
 
+function hasClass(elem, className)
+{
+    var classes = elem.className;
+    if (typeof classes === 'undefined')
+        return false;
+    classes.split(' ');
+    if (classes.indexOf(className) !== -1)
+        return true;
+    return false;
+}
+
+function    ajax(verb, url, cb)
+{
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
+            return cb(xmlhttp.responseText);
+    };
+    xmlhttp.open(verb, url, true);
+    xmlhttp.send();
+}
+
 /**
  * Callback for Event Profile Instagram (Loading / NewNode)
  * @param $this
  */
-var getFromInstagramProfile = function($this) {
-    if (($this.hasClass('Vigram')))
+var getFromInstagramProfile = function(elem) {
+    if (hasClass(elem, 'Vigram'))
         return;
 
-    $this.addClass('Vigram');
-    var urlToMedia = $this.find('a').first().attr('href');
-    $.get(urlToMedia, function (content) {
+    elem.className += ' Vigram';
+    var urlToMedia = elem.querySelectorAll('a')[0].href;
+    ajax('GET', urlToMedia, function(content) {
         var url = getRealImgFromInstagram(content);
         var fName = url.split("/")[4];
-        $('<a>', {class: "VigramProfileButton", href: url, download: fName})
-            .append($("<img>", {class: "VigramEffect size25", src: image}))
-            .appendTo($this);
+        var VigramLink = document.createElement('a');
+        var VigramButton = document.createElement('img');
+        VigramButton.className = "VigramEffect size25 invisible";
+        VigramButton.src = image;
+        VigramLink.className = "VigramProfileButton";
+        VigramLink.href = url;
+        VigramLink.setAttribute('download', fName);
+        VigramLink.appendChild(VigramButton);
+        elem.appendChild(VigramLink)
     });
-
 };
 
-var getFromInstagramTimeline = function($this) {
-    if ($this.hasClass('Vigram'))
+var getFromInstagramTimeline = function(elem) {
+    if (elem.hasClass('Vigram'))
         return;
 
-    var url = $this.find('.Video').first().attr('src');
+    var url = elem.find('.Video').first().attr('src');
     if (typeof url == 'undefined')
-        url = $this.find('.timelinePhoto').attr('src');
-    $this.addClass('Vigram');
+        url = elem.find('.timelinePhoto').attr('src');
+    elem.addClass('Vigram');
     if (typeof url != 'undefined') {
         var fName = url.split("/")[4];
-        $this.find('.timelineLikeButton').after(
+        elem.find('.timelineLikeButton').after(
             $("<a>", {class: "timelineLikeButton", style: "background:none;", href: url, download: fName})
                 .append($("<div>", {class: "Vcenter"})
                     .append($("<img>", {class: "size25", src: image}))
@@ -87,12 +114,88 @@ var getFromInstagramTimeline = function($this) {
 var image = chrome.extension.getURL("medias/images/vigram_128.png");
 
 /* Event when mouse enter or leave a pic/video block */
-$('.photo-feed').on('mouseenter', '.photo', function () { $(this).find('.VigramEffect').css('width', '25px'); });
-$('.photo-feed').on('mouseleave', '.photo', function () { $(this).find('.VigramEffect').css('width', '0'); });
+//$('.photo-feed').on('mouseenter', '.photo', function () { $(this).find('.VigramEffect').css('width', '25px'); });
+//$('.photo-feed').on('mouseleave', '.photo', function () { $(this).find('.VigramEffect').css('width', '0'); });
+
+var medias = document.querySelectorAll('.photoShadow');
+for (var i = 0; i < medias.length; ++i)
+{
+    medias[i].addEventListener("mouseover", function(e){
+        e = e ? e : window.event;
+        var reactId = e.target.getAttribute('data-reactid'),
+            photo = e.target.parentNode.parentNode.parentNode,
+            vigramId = photo.getAttribute('data-reactid'),
+            allMedias = document.querySelectorAll('.VigramEffet, .visible');
+
+        for (var j = 0; j < allMedias.length; ++j)
+        {
+            if (allMedias[j].id.split('-')[1] !== reactId)
+                allMedias[j].className = 'VigramEffect size25 invisible';
+        }
+
+        if (hasClass(photo, 'photo'))
+        {
+            var vigramMedia = photo.querySelector('.VigramEffect');
+            if (vigramMedia !== null)
+            {
+                vigramMedia.className = 'VigramEffect size25 visible';
+                vigramMedia.id = 'vigramId-' + vigramId;
+            }
+        }
+    });
+//    medias[i].addEventListener("mouseout", function(e){
+//        e = e ? e : window.event;
+//
+//        var photo = e.target.parentNode.parentNode.parentNode;
+//        var reactId = photo.getAttribute('data-reactid');
+////        if (hasClass(photo, 'photo'))
+//        {
+//            var vigramMedia = photo.querySelector('.VigramEffect');
+////            var allMedias = document.querySelectorAll('.VigramEffet, .visible');
+////            console.log(allMedias);
+////            for (var j = 0; j < allMedias.length; ++j)
+////            {
+//                var vigramId = vigramMedia.id.split('-')[1];
+////                    allMedias[j].className = 'VigramEffect size25 invisible';
+////            }
+//
+//
+//            console.log(vigramId)
+//            console.log(reactId);
+////            console.log(reactId)
+//            if (vigramMedia !== null)
+//            {
+//                vigramMedia.className = 'VigramEffect size25 invisible';
+//            }
+//        }
+//    });
+}
+
+//document.addEventListener("mousemove", function (e) {
+//    e = e ? e : window.event;
+//    var classes = e.target.className.split(' ');
+//    if (classes.indexOf('photoShadow') !== -1)
+//        return;
+//
+//    //console.log(enabled);
+//    if (enabled !== null)
+//        enabled.className = 'VigramEffect size25 invisble';
+//
+//
+//});
+
+var photoFeed = document.querySelectorAll('.photo-feed')[0];
+if (typeof photoFeed !== 'undefined')
+{
+    var medias = photoFeed.querySelectorAll('.photo');
+    for (var i = 0; i < medias.length; ++i)
+        getFromInstagramProfile(medias[i]);
+}
+
 
 /* Events Handlers. */
-$('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
-$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
+//$('.photo-feed').ready(function () { $('.photo-wrapper').each(getFromInstagramProfile($(this))); });
+//$('.photo-feed').on('DOMNodeInserted', '.photo', function (e) { getFromInstagramProfile($(e.target).parent()); });
 
 $('.timelineContainer').ready(function () { $('.timelineItem').each(function () { getFromInstagramTimeline($(this)); }); });
 $('.timelineContainer').on('DOMNodeInserted', '.timelineItem', function (e) { getFromInstagramTimeline($(e.target)); });

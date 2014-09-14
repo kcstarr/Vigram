@@ -1,13 +1,18 @@
 .VigramProfileButton {
     margin:-25px 5px;
     z-index:1;
-    float:left;
 }
 
 .VigramProfileButton img {
     border-radius: 2px;
-    width:0;
-    float:left;
+    width:25px;
+    position: absolute;
+    left: 145px;
+    top: -10px;
+}
+
+.invisible {
+    display:none !important;
 }
 
 #VigramSingleImg {
