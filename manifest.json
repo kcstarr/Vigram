@@ -12,13 +12,18 @@
   "manifest_version": 2,
   
   "content_scripts": [ {
-    "matches": ["http://instagram.com/*", "https://vine.co/v/*"],
-    "js": [ "jquery-2.0.3.min.js", "vigram.js" ],
+    "matches": [
+        "http://instagram.com/*",
+        "https://vine.co/*"
+    ],
+    "js": [ "jquery-2.0.3.min.js", "vigram_instagram.js", "vigram_vine.js" ],
     "css": ["medias/css/vigram.css"]
   }],
   
-  "permissions":    [
-    "tabs", "http://instagram.com/*", "https://vine.co/v/*"
+  "permissions": [
+      "tabs",
+      "http://instagram.com/*",
+      "https://vine.co/*"
   ],
 
   "web_accessible_resources": [
