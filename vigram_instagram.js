@@ -69,12 +69,12 @@ function hasClass(elem, className)
  * @param url
  * @param cb
  */
-function    ajax(verb, url, cb)
+function    ajax(verb, url, cb, index)
 {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
-            return cb(xmlhttp.responseText);
+            return cb(xmlhttp.responseText, index);
     };
     if (url === null)
         url = '';
@@ -92,7 +92,7 @@ var getFromInstagramProfile = function(elem) {
 
     elem.className += ' Vigram';
     var urlToMedia = elem.querySelectorAll('a')[0].href;
-    ajax('GET', urlToMedia, function(content) {
+    ajax('GET', urlToMedia, function(content, index) {
         var url = getRealImgFromInstagram(content);
         var fName = url.split("/")[4];
         var VigramLink = document.createElement('a');
@@ -242,7 +242,7 @@ $('body').on('click', function() {
 var singlePage = document.querySelectorAll('.lbAnimation')[0];
 if (typeof singlePage !== 'undefined')
 {
-    ajax('GET', null, function(content) {
+    ajax('GET', null, function(content, index) {
         var url = getUrlFromInstagramMedia(content);
         if (typeof url === 'undefined')
             return;

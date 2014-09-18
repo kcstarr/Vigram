@@ -31,6 +31,16 @@
     width:42px;
 }
 
+.VineButtonChannels img {
+    height: 19px;
+    float:left;
+}
+
+.VineButtonChannels .caption {
+    margin-left: 33px;
+    margin-top: 5px;
+}
+
 .size25 {
     width:25px;
 }
@@ -52,3 +62,4 @@
     background-size: 50px !important;
     background-repeat: no-repeat !important;
 }
+
