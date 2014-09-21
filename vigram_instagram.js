@@ -122,7 +122,6 @@ var getFromInstagramTimeline = function(elem) {
     if (typeof url == 'undefined' || url === null)
     {
         url = elem.querySelector('.timelineCenter .mediaPhoto .timelinePhoto').getAttribute('src');
-        console.log(url)
     }
 
     elem.className += ' Vigram';
@@ -175,46 +174,53 @@ var mouseOverEvent = function(e) {
 /**
  * Instagram - Profile Page.
  */
-var photoFeed = document.querySelectorAll('.photo-feed')[0];
-if (typeof photoFeed !== 'undefined')
+
+function            instagramProfile(photoFeed)
 {
-    var medias = photoFeed.querySelectorAll('.photo');
-    for (var i = 0; i < medias.length; ++i)
+    if (typeof photoFeed !== 'undefined')
     {
-        getFromInstagramProfile(medias[i]);
-        medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
-    }
-    photoFeed.addEventListener('DOMNodeInserted', function(e) {
-        e = e ? e : window.event;
-        var classes = e.target.className;
-        if (classes.indexOf('photo') !== -1)
+        var medias = photoFeed.querySelectorAll('.photo');
+        for (var i = 0; i < medias.length; ++i)
         {
-            getFromInstagramProfile(e.target);
-            e.target.querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
+            getFromInstagramProfile(medias[i]);
+            medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
         }
-    });
+        photoFeed.addEventListener('DOMNodeInserted', function(e) {
+            e = e ? e : window.event;
+            var classes = e.target.className;
+            if (classes.indexOf('photo') !== -1)
+            {
+                getFromInstagramProfile(e.target);
+                e.target.querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
+            }
+        });
+    }
+
 }
 
 /**
  * Instagram - Timeline Page.
  */
-var timelineFeed = document.querySelectorAll('.timelineContainer')[0];
-if (typeof timelineFeed !== 'undefined')
+function    instagramTimeline(timelineFeed)
 {
-    var medias = timelineFeed.querySelectorAll('.timelineItem');
-    for (var i = 0; i < medias.length; ++i)
+    if (typeof timelineFeed !== 'undefined')
     {
-        getFromInstagramTimeline(medias[i]);
-    }
-    timelineFeed.addEventListener('DOMNodeInserted', function(e) {
-        e = e ? e : window.event;
-        var classes = e.target.className;
-        if (classes.indexOf('timelineItem') !== -1)
+        var medias = timelineFeed.querySelectorAll('.timelineItem');
+        for (var i = 0; i < medias.length; ++i)
         {
-            getFromInstagramTimeline(e.target);
+            getFromInstagramTimeline(medias[i]);
         }
-    });
+        timelineFeed.addEventListener('DOMNodeInserted', function(e) {
+            e = e ? e : window.event;
+            var classes = e.target.className;
+            if (classes.indexOf('timelineItem') !== -1)
+            {
+                getFromInstagramTimeline(e.target);
+            }
+        });
+    }
 }
+
 
 /**
  * Event on Instagram's Modal
@@ -239,56 +245,84 @@ $('body').on('click', function() {
 /**
  * Instagram - Single page.
  */
-var singlePage = document.querySelectorAll('.lbAnimation')[0];
-if (typeof singlePage !== 'undefined')
+function    instagramSingle(singlePage)
 {
-    ajax('GET', null, function(content, index) {
-        var url = getUrlFromInstagramMedia(content);
-        if (typeof url === 'undefined')
-            return;
+    if (typeof singlePage !== 'undefined')
+    {
+        ajax('GET', null, function(content, index) {
+            var url = getUrlFromInstagramMedia(content);
+            if (typeof url === 'undefined')
+                return;
 
-        var fName = url.split("/")[3];
-        if (typeof fName === 'undefined' || fName === 'profiles')
-            return;
+            var fName = url.split("/")[3];
+            if (typeof fName === 'undefined' || fName === 'profiles')
+                return;
 
-        var is_pic = getTypeFromInstagramMedia(content);
-        var text_button = chrome.i18n.getMessage("dl_button_vid");
-        if (is_pic)
-            text_button = chrome.i18n.getMessage("dl_button_pic");
+            var is_pic = getTypeFromInstagramMedia(content);
+            var text_button = chrome.i18n.getMessage("dl_button_vid");
+            if (is_pic)
+                text_button = chrome.i18n.getMessage("dl_button_pic");
 
-        var topbar = document.querySelectorAll('.top-bar-actions')[0];
-        if (typeof topbar !== 'undefined')
-        {
-            if (!topbar.querySelector('#VigramSingleImg'))
+            var topbar = document.querySelectorAll('.top-bar-actions')[0];
+            if (typeof topbar !== 'undefined')
             {
-                var VigramList = document.createElement('li'),
-                    VigramLink = document.createElement('a'),
-                    VigramSpan = document.createElement('span'),
-                    VigramButton = document.createElement('img'),
-                    VigramText = document.createElement('strong');
+                if (!topbar.querySelector('#VigramSingleImg'))
+                {
+                    var VigramList = document.createElement('li'),
+                        VigramLink = document.createElement('a'),
+                        VigramSpan = document.createElement('span'),
+                        VigramButton = document.createElement('img'),
+                        VigramText = document.createElement('strong');
 
-                VigramList.id = "VigramSingleImg";
-                VigramList.style.width = '225px';
+                    VigramList.id = "VigramSingleImg";
+                    VigramList.style.width = '225px';
 
-                VigramLink.href = url;
-                VigramLink.setAttribute('download', fName);
+                    VigramLink.href = url;
+                    VigramLink.setAttribute('download', fName);
 
-                VigramSpan.style.float = 'left';
-                VigramSpan.style.display = 'inline';
-                VigramSpan.style.margin = '-4px 7px 1px 0px';
+                    VigramSpan.style.float = 'left';
+                    VigramSpan.style.display = 'inline';
+                    VigramSpan.style.margin = '-4px 7px 1px 0px';
 
-                VigramButton.src = image;
+                    VigramButton.src = image;
 
-                VigramText.innerHTML = text_button;
-                VigramText.style.display = 'block';
+                    VigramText.innerHTML = text_button;
+                    VigramText.style.display = 'block';
 
-                VigramSpan.appendChild(VigramButton);
-                VigramLink.appendChild(VigramSpan);
-                VigramLink.appendChild(VigramText);
-                VigramList.appendChild(VigramLink);
-                topbar.appendChild(VigramList);
+                    VigramSpan.appendChild(VigramButton);
+                    VigramLink.appendChild(VigramSpan);
+                    VigramLink.appendChild(VigramText);
+                    VigramList.appendChild(VigramLink);
+                    topbar.appendChild(VigramList);
+                }
             }
-        }
-    });
+        });
+    }
+
 }
 
+var _location = null;
+
+window.addEventListener('DOMSubtreeModified', function() {
+    var Feed;
+    if (_location === null)
+        _location = document.URL;
+    if (_location !== document.URL)
+    {
+        console.log("ca change d'url");
+        _location = document.URL;
+    }
+
+    if (typeof (Feed = document.querySelectorAll('.photo-feed')[0]) !== 'undefined')
+    {
+        instagramProfile(Feed);
+    }
+    else if (typeof (Feed = document.querySelectorAll('.timelineContainer')[0]) !== 'undefined')
+    {
+        instagramTimeline(Feed);
+    }
+    else if (typeof (Feed = document.querySelectorAll('.lbAnimation')[0]) !== 'undefined')
+    {
+        instagramSingle(Feed);
+    }
+});
