@@ -221,26 +221,31 @@ function    instagramTimeline(timelineFeed)
     }
 }
 
+document.querySelector('body').addEventListener('click', function() {
+    document.querySelector('body').addEventListener('DOMNodeInserted', function(e) {
+        e = e ? e : window.event;
+        if (document.querySelector('div div .igDialogLayer .VerticalCenter'))
+        {
+            var elem = e.target.querySelector('.Item .iMedia .Image');
+            if (elem === null || hasClass(elem, 'Vigram'))
+                return;
 
-/**
- * Event on Instagram's Modal
- */
-$('body').on('click', function() {
-    $('body').on('DOMNodeInserted', '.igDialogContent', function (e) {
+            var urlToMedia = elem.getAttribute('src'),
+                fName = urlToMedia.split('/')[4];
 
-        var $elem = $(e.target).find('.Image.iLoading.Frame').first();
-        if ($elem.hasClass('Vigram'))
-            return;
+            elem.className += ' Vigram';
 
-        var urlToMedia  = $elem.attr('src'),
-            fName       = urlToMedia.split("/")[4];
+            var VigramLink = document.createElement('a');
 
-        $elem.addClass('Vigram');
-
-        $("<a>", {class: "VigramModal", style: "background:url("+image+")", href: urlToMedia, download: fName})
-            .appendTo($elem);
+            VigramLink.className = 'VigramModal';
+            VigramLink.style.backgroundImage = "url("+image+")";
+            VigramLink.href = urlToMedia;
+            VigramLink.setAttribute('download', fName);
+            elem.appendChild(VigramLink);
+        }
     });
 });
+
 
 /**
  * Instagram - Single page.
