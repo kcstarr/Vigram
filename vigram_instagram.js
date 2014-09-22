@@ -72,7 +72,7 @@ function hasClass(elem, className)
 function    ajax(verb, url, cb, index)
 {
     var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
+    xmlhttp.onreadystatechange = function(url) {
         if (xmlhttp.readyState == 4 && xmlhttp.status == 200)
             return cb(xmlhttp.responseText, index);
     };
@@ -173,18 +173,29 @@ var mouseOverEvent = function(e) {
 
 /**
  * Instagram - Profile Page.
+ * @param photoFeed
  */
-
 function            instagramProfile(photoFeed)
 {
     if (typeof photoFeed !== 'undefined')
     {
         var medias = photoFeed.querySelectorAll('.photo');
-        for (var i = 0; i < medias.length; ++i)
-        {
-            getFromInstagramProfile(medias[i]);
-            medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
-        }
+        var i = 0;
+        var interval = setInterval(function() {
+            if (i < medias.length)
+            {
+                getFromInstagramProfile(medias[i]);
+                medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
+            }
+            else
+                clearInterval(interval);
+            i++;
+        }, 200);
+//        for (var i = 0; i < medias.length; ++i)
+//        {
+//            getFromInstagramProfile(medias[i]);
+//            medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
+//        }
         photoFeed.addEventListener('DOMNodeInserted', function(e) {
             e = e ? e : window.event;
             var classes = e.target.className;
@@ -200,6 +211,7 @@ function            instagramProfile(photoFeed)
 
 /**
  * Instagram - Timeline Page.
+ * @param timelineFeed
  */
 function    instagramTimeline(timelineFeed)
 {
@@ -246,9 +258,9 @@ document.querySelector('body').addEventListener('click', function() {
     });
 });
 
-
 /**
  * Instagram - Single page.
+ * @param singlePage
  */
 function    instagramSingle(singlePage)
 {
@@ -314,7 +326,6 @@ window.addEventListener('DOMSubtreeModified', function() {
         _location = document.URL;
     if (_location !== document.URL)
     {
-        console.log("ca change d'url");
         _location = document.URL;
     }
 
