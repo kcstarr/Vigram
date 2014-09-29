@@ -37,8 +37,13 @@
 }
 
 .VineButtonChannels .caption {
-    margin-left: 33px;
-    margin-top: 5px;
+    margin-left: 36px !important;
+    margin-top: 4px;
+    color:#b2b2b2;
+}
+
+.VineButtonPlaylists img {
+    width: 23px;
 }
 
 .size25 {

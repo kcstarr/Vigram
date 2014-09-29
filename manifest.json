@@ -16,7 +16,7 @@
         "http://instagram.com/*",
         "https://vine.co/*"
     ],
-    "js": [ "jquery-2.0.3.min.js", "vigram_instagram.js", "vigram_vine.js" ],
+    "js": [ "vigram_instagram.js", "vigram_vine.js" ],
     "css": ["medias/css/vigram.css"]
   }],
   
@@ -27,7 +27,6 @@
   ],
 
   "web_accessible_resources": [
-      "jquery-2.0.3.min.map",
       "medias/images/vigram_25.png",
       "medias/images/vigram_128.png"
   ]

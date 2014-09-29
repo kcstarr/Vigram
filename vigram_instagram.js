@@ -57,7 +57,7 @@ function hasClass(elem, className)
     var classes = elem.className;
     if (typeof classes === 'undefined')
         return false;
-    classes.split(' ');
+    classes = classes.split(' ');
     if (classes.indexOf(className) !== -1)
         return true;
     return false;
