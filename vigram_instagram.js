@@ -1,6 +1,6 @@
 /**
  * Vigram
- * @version : 1.1
+ * @version : 2.0
  * @author: Nicolas (@neodern) Jamet <neodern@gmail.com>
  * @about: Download pics & videos from Vine & Instagram with a single click !
  */
@@ -191,11 +191,6 @@ function            instagramProfile(photoFeed)
                 clearInterval(interval);
             i++;
         }, 200);
-//        for (var i = 0; i < medias.length; ++i)
-//        {
-//            getFromInstagramProfile(medias[i]);
-//            medias[i].querySelector('.photoShadow').addEventListener("mouseover", mouseOverEvent);
-//        }
         photoFeed.addEventListener('DOMNodeInserted', function(e) {
             e = e ? e : window.event;
             var classes = e.target.className;
