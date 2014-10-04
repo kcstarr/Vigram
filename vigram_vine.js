@@ -76,34 +76,10 @@ function getMeta(content)
 
 }
 
-//var _location = null;
-//
-//window.addEventListener('DOMSubtreeModified', function(e) {
-//    if (_location === null)
-//        _location = document.URL;
-//    if (_location !== document.URL)
-//    {
-//        _location = document.URL;
-//    }
-//
-//    switch (document.URL.split('/')[3]) {
-//        case 'v':
-//            singleVine();
-//            break;
-//        case 'channels':
-//        case 'u':
-//            timelineVine(getChannelsVigramButton, '.share', '.post-actions', e);
-//            break;
-//        case 'playlists':
-//            timelineVine(getPlaylistsVigramButton, '.loop-count', '.post-metadata', e);
-//            break;
-//    };
-//});
-
 function timelineVine(getVigramButton, classToClone, classToAppend, element)
 {
     var linkSingleVine = element.querySelector('.share-overlay a');
-    if (linkSingleVine.href !== null)
+    if (linkSingleVine && linkSingleVine.href !== null)
     {
         ajax('GET', linkSingleVine.href, function(content) {
             var vineMeta = getMeta(content),
