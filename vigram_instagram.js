@@ -112,7 +112,7 @@ var getFromInstagramProfile = function(elem) {
  * @param elem
  */
 var getFromInstagramTimeline = function(elem) {
-    if (hasClass(elem, 'Vigram') || hasClass(elem, 'timelineLast'))
+    if (hasClass(elem, 'Vigram'))
         return;
 
     var url = null;
@@ -121,7 +121,10 @@ var getFromInstagramTimeline = function(elem) {
         url = video.getAttribute('src');
     if (typeof url == 'undefined' || url === null)
     {
-        url = elem.querySelector('.timelineCenter .mediaPhoto .timelinePhoto').getAttribute('src');
+        var imgTag = elem.querySelector('.timelineCenter .timelineCard .mediaPhoto div')
+        if (!imgTag)
+            return;
+        url = imgTag.getAttribute('src');
     }
 
     elem.className += ' Vigram';
